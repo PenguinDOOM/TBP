@@ -1,0 +1,5 @@
+#include "actors/ScriptItems.dec"
+#include "actors/BloodyRune.dec"
+#include "actors/Bloody/BloodySpiderMind.dec"
+#include "actors/Break/BreakTerminator.dec"
+

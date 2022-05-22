@@ -1,0 +1,177 @@
+//Brightmaps
+
+
+BrightMap Sprite DEMOG1
+{
+Map BMDEMOG1
+DisableFullBright
+}
+
+BrightMap Sprite DEMOG2G8
+{
+Map BMDEMOG2
+DisableFullBright
+}
+
+BrightMap Sprite DEMOG3G7
+{
+Map BMBLACK
+DisableFullBright
+}
+
+BrightMap Sprite DEMOG4G6
+{
+Map BMBLACK
+DisableFullBright
+}
+
+BrightMap Sprite DEMOG5
+{
+Map BMBLACK
+DisableFullBright
+}
+
+BrightMap Sprite DEMOH1
+{
+Map BMDEMOH1
+DisableFullBright
+}
+
+BrightMap Sprite DEMOH2H8
+{
+Map BMDEMOH2
+DisableFullBright
+}
+
+BrightMap Sprite DEMOH3H7
+{
+Map BMDEMOH3
+DisableFullBright
+}
+
+BrightMap Sprite DEMOH4H6
+{
+Map BMDEMOH4
+DisableFullBright
+}
+
+BrightMap Sprite DEMOH5
+{
+Map BMDEMOH5
+DisableFullBright
+}
+
+BrightMap Sprite DEMOJ0
+{
+Map BMDEMOJ0
+DisableFullBright
+}
+
+BrightMap Sprite DEMOK0
+{
+Map BMDEMOK0
+DisableFullBright
+}
+
+BrightMap Sprite DEMOL0
+{
+Map BMDEMOL0
+DisableFullBright
+}
+
+BrightMap Sprite DEMOM0
+{
+Map BMDEMOM0
+DisableFullBright
+}
+
+BrightMap Sprite DEMON0
+{
+Map BMDEMON0
+DisableFullBright
+}
+
+BrightMap Sprite DEMOO0
+{
+Map BMDEMOO0
+DisableFullBright
+}
+
+BrightMap Sprite DEMOP0
+{
+Map BMDEMOP0
+DisableFullBright
+}
+
+BrightMap Sprite DEMOQ0
+{
+Map BMDEMOQ0
+DisableFullBright
+}
+
+BrightMap Sprite DEMOR0
+{
+Map BMDEMOR0
+DisableFullBright
+}
+
+BrightMap Sprite DEMOT1
+{
+Map BMDEMOT1
+DisableFullBright
+}
+
+BrightMap Sprite DEMOT2T8
+{
+Map BMDEMOT2
+DisableFullBright
+}
+
+BrightMap Sprite DEMOT3T7
+{
+Map BMDEMOT3
+DisableFullBright
+}
+
+BrightMap Sprite DEMOT4T6
+{
+Map BMBLACK
+DisableFullBright
+}
+
+BrightMap Sprite DEMOT5
+{
+Map BMBLACK
+DisableFullBright
+}
+
+BrightMap Sprite DEMOU1
+{
+Map BMDEMOU1
+DisableFullBright
+}
+
+BrightMap Sprite DEMOU2U8
+{
+Map BMDEMOU2
+DisableFullBright
+}
+
+BrightMap Sprite DEMOU3U7
+{
+Map BMDEMOU3
+DisableFullBright
+}
+
+BrightMap Sprite DEMOU4U6
+{
+Map BMDEMOU4
+DisableFullBright
+}
+
+BrightMap Sprite DEMOU5
+{
+Map BMDEMOU5
+DisableFullBright
+}
+

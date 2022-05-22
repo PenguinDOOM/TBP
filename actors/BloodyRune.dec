@@ -1,0 +1,13 @@
+Actor BloodyRune : LegendaryRune2
+{
+	Inventory.PickupMessage "Agility Rune: Speed and Rage"
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay A_JumpIf(ACS_NamedExecuteWithResult("TrueHardMode") == 1, "Remove")
+		TNT1 A 0 A_PlaySound("Pickups/Legruneidle",7,1.0,1)
+		//TNT1 A 0 A_SpawnItemEx("AgilityRuneLineSpawner")
+		BDRN AA 5 Bright A_SpawnItemEx("NewBlood", 0, 0, 25)//,0,0,0,0,0,0,0,SXF_CLIENTSIDE);//A_SpawnItemEx("AgilityRuneFlameSpawner",0,0,-20)
+		Loop
+	}
+}

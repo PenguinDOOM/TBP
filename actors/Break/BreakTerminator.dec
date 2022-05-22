@@ -1,0 +1,1738 @@
+Actor BreakTerminator : Cyberdemon
+{ 
+	Health 10666 
+	Radius 28 
+	Height 86 
+	//Mass 0x7FFFFFFD 
+	Speed 36
+	//PainChance 4
+	scale 1.4
+	Species "Break"
+	Alpha 1.0
+	Obituary "%o was broken by a Break Terminator."
+	Bloodcolor "White"
+	+NOTIMEFREEZE
+	+DONTHARMSPECIES
+	+MISSILEMORE
+	+FLOORCLIP
+	+FireResist
+	+NORADIUSDMG
+	+NOICEDEATH
+	+BOSS
+	+MISSILEEVENMORE
+	+CANTSEEK
+	+NOFEAR
+	+DONTSPLASH
+	//+LOOKALLAROUND
+	+NOEXTREMEDEATH
+	+BOSSDEATH
+	+NOTELEFRAG
+	+DONTGIB
+	+DONTMORPH
+	+QUICKTORETALIATE
+	+NoDropOff
+	//-COUNTKILL
+	+DONTRIP
+	//+NOPAIN
+	+USEDAMAGEEVENTSCRIPT
+	SeeSound "monster/termsit" 
+	PainSound "monster/termpin" 
+	DeathSound "monster/termdth"
+	AttackSound "plasmaminigun/fire"
+	ActiveSound "Terminator/termact"
+	/*amageFActor "PlayerFireSword", 0.8
+	DamageFActor "PlayerDTRG", 0.30
+	DamageFActor "PlayerBHole", 0.0
+	DamageFActor "CustomSpray", 0.0
+	DamageFActor "BFG9500Ball", 0.0
+	DamageFActor "PlayerPyro", 0.3
+	DamageFActor "Extreme", 0.0
+	DamageFActor "UltimateLegendary", 0.0
+	DamageFActor "HellComet", 0.0
+	DamageFActor "T3rm", 0.0
+	DamageFActor "PDTBFG", 0.03
+	DamageFActor "PDTBFGTracer", 0.03
+	DamageFActor "PlayerRailPuff", 0.0
+	DamageFActor "PDTPuff", 0.0
+	DamageFActor "Ice", 0.0
+	DamageFActor "FreezerBurn", 0.0
+	DamageFActor "DemolisherEx", 0.0
+	DamageFActor "DarkDemoEx", 0.0
+	DamageFActor "CerChainguns", 0.0	
+	DamageFActor "CerEnergyBall", 0.0
+	DamageFActor "Cyber10K", 0.0
+	DamageFActor "C0mm4nder", 0.0
+	DamageFActor "HFCyb3r", 0.3
+
+	DamageFActor "Legendary", 0.0
+	DamageFActor "Legendary1", 0.0
+	DamageFActor "LegendaryGuru", 0.0
+	DamageFActor "LegendaryGuruPlayer", 0.3
+	DamageFActor "LegendaryPlayer", 0.3
+	DamageFActor "BFG10K", 0.65
+	DamageFActor "BFGSplash", 0.0
+	DamageFActor "BFGSpray", 0.0
+	DamageFActor "Railg", 0.5
+
+	DamageFActor "PlayerDevBall", 0.020
+	DamageFActor "PlayerDTBFGRailgunSlug", 0.020
+	DamageFActor "PlayerDevTracer", 0.020
+
+	DamageFActor "SuperWeapon", 0.0
+
+	DamageFActor "DBFG10K2", 0.65
+	DamageFActor "PlayerDBFG10K2", 0.65
+	DamageFActor "DBFG2", 0.65
+	DamageFActor "PlayerDBFG2", 0.65*/
+
+	DamageFActor 0.35
+	//DamageFActor "PlayerNemesisPlasma", 0.2
+	//DamageFActor "Explosion", 0.1
+
+	DamageFActor "Break", 0.0
+	Tag "\c[v2]Break Terminator ??? (Corrupted)"
+	var int user_count;
+	States 
+	{ 
+	Spawn:
+		TNT1 A 2
+		TNT1 A 1 A_SpawnItemEx("BreakShieldSpawner", 0, 0, 0, 0, 0, 0, 0, SXF_SETMASTER | SXF_NOCHECKPOSITION)
+		Goto Idle
+	Idle:
+		BRRM AB 10 A_Look 
+		Loop 
+	See:
+		BRRM A 1 A_Playsound("Terminator/terstepA", 0, 3.5)
+		BRRM A 3 A_Chase
+		BRRM A 4 A_Chase
+		BRRM B 4 A_Chase
+		BRRM B 4 A_Chase
+		//BRRM B 0 HealThing(4)
+		//BRRM B 0 A_Jump(16,"Teleport")
+		//BRRM B 0 A_Jump(8,"Teleport2")
+		BRRM C 1 A_Playsound("Terminator/terstepA", 0, 3.5)
+		BRRM C 3 A_Chase 
+		BRRM C 4 A_Chase
+		BRRM D 4 A_Chase
+		BRRM D 4 A_Chase
+		//BRRM B 0 HealThing(4)
+		//BRRM B 0 A_Jump(16,"Teleport")
+		//BRRM B 0 A_Jump(8,"Teleport2")
+		Loop 
+	Teleport:
+		BRRM B 0 A_UnSetShootable
+		TNT1 A 0 A_Changeflag(REFLECTIVE, True)
+		BRRM BBBBBBBBBBB 1 A_FadeOut(0.1,0)
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_Wander
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_Wander
+		BRRM BBBBBBBBBBB 1 A_FadeIn(0.1)
+		TNT1 A 0 A_Changeflag(REFLECTIVE, False)
+		BRRM D 0 A_SetShootable
+		Goto See
+	PainTeleport:
+		BRRM L 0 A_UnSetShootable
+		//TNT1 A 0 A_Changeflag(REFLECTIVE, True)
+		TNT1 A 0 A_Changeflag(NODAMAGE, True)
+		TNT1 A 0 A_Changeflag(NOPAIN, True)
+		TNT1 AAAAAAAAAAAAAAAAAAA 0 A_CustomMissile("BreakSeekBall", 50, 0, frandom(0.0, 360.0), CMF_AIMDIRECTION | CMF_OFFSETPITCH, frandom(0, 90))
+		BRRM LLLLLLLLLLL 1 A_FadeOut(0.1,0)
+		TNT1 AAAAAAAAAAAAAAAAAAA 0 A_Wander
+		TNT1 AAAAAAAAAAAAAAAAAAA 0 A_Wander
+		BRRM LLLLLLLLLLL 1 A_FadeIn(0.1)
+		//TNT1 A 0 A_Changeflag(REFLECTIVE, False)
+		TNT1 A 0 A_Changeflag(NODAMAGE, False)
+		TNT1 A 0 A_Changeflag(NOPAIN, False)
+		BRRM L 0 A_SetShootable
+		Goto See
+	Pain:
+		TNT1 A 0
+		Goto PainTeleport
+		BRRM L 3 	
+		BRRM L 3 A_Pain
+		Goto See
+	Missile:
+		TNT1 A 0 A_Jump(100, "BFGWall")
+		TNT1 A 0 A_Jump(100, "Railgun")
+		BRRM E 5 A_Facetarget
+		BRRM F 2 Bright A_CustomMissile ("Break10kProjectile", 50,24, random(-5,5))
+		BRRM E 5 A_Facetarget
+		BRRM F 2 Bright A_CustomMissile ("Break10kProjectile", 50,24, random(-5,5))
+		BRRM E 5 A_Facetarget
+		BRRM F 2 Bright A_CustomMissile ("Break10kProjectile", 50,24, random(-5,5))
+		BRRM E 5 A_Facetarget
+		BRRM F 2 Bright A_CustomMissile ("Break10kProjectile", 50,24, random(-5,5))
+		BRRM E 5 A_Facetarget
+		BRRM F 2 Bright A_CustomMissile ("Break10kProjectile", 50,24, random(-5,5))
+		BRRM E 5 A_Facetarget
+		BRRM F 2 Bright A_CustomMissile ("Break10kProjectile", 50,24, random(-5,5))
+		BRRM F 0 A_SpidRefire
+		Goto See
+	Railgun:
+		//BRRM E 0 A_Jump(130, "Railgun2")
+		BRRM E 0 A_Jump(160, "RailgunRash")
+		BRRM E 0 A_PlaySound("Break/Fire", 0, 3.5)
+		BRRM E 1 A_Facetarget
+		BRRM FF 2 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 2 A_Facetarget
+		BRRM FF 2 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 2 A_Facetarget
+		BRRM FF 2 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 2 A_Facetarget
+		BRRM FF 2 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 2 A_Facetarget
+		BRRM E 1 A_SpidRefire
+		BRRM E 0 A_PlaySound("Break/Fire", 0, 3.5)
+		BRRM E 1 A_Facetarget
+		BRRM FF 2 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 2 A_Facetarget
+		BRRM FF 2 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 2 A_Facetarget
+		BRRM FF 2 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 2 A_Facetarget
+		BRRM FF 2 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 2 A_Facetarget
+		BRRM E 1 A_SpidRefire
+		//BRRM E 1 A_Jump(180, "Redstara")
+		Goto See
+	Railgun2:
+		BRRM E 1 A_Facetarget 
+		BRRM E 0 A_SpawnItemEx("FakeBreakTerminator", 120, 0, 0, 0, 0, 0, 0, SXF_NOCHECKPOSITION)
+		BRRM E 0 A_SetAngle(angle + 90)
+		BRRM E 0 A_SpawnItemEx("FakeBreakTerminator", 120, 0, 0, 0, 0, 0, 0, SXF_NOCHECKPOSITION)
+		BRRM E 0 A_SetAngle(angle + 90)
+		BRRM E 0 A_SpawnItemEx("FakeBreakTerminator", 120, 0, 0, 0, 0, 0, 0, SXF_NOCHECKPOSITION)
+		BRRM E 0 A_SetAngle(angle + 90)
+		BRRM E 0 A_SpawnItemEx("FakeBreakTerminator", 120, 0, 0, 0, 0, 0, 0, SXF_NOCHECKPOSITION)
+		BRRM E 0 A_SetAngle(angle + 90)
+		TNT1 A 0 A_SetUserVar("user_count", 40)
+		BRRM E 105
+	Railgun2Loop:
+		TNT1 A 0 A_JumpIf(user_count < 0, "See")
+		BRRM FF 2 Bright A_Facetarget //A_CustomMissile("BreakRailLaser", 50,24, random(-15,15))
+		BRRM E 2 A_FaceTarget
+		TNT1 A 0 A_SetUserVar("user_count", user_count - 1)
+		Goto Railgun2Loop
+	RailgunRash:
+		TNT1 A 0 A_SetUserVar("user_count", 40)
+		BRRM E 1 A_Facetarget
+		BRRM F 10 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 5 A_Facetarget
+		BRRM F 9 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 5 A_Facetarget
+		BRRM F 8 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 5 A_Facetarget
+		BRRM F 7 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 5 A_Facetarget
+		BRRM F 6 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 5 A_Facetarget
+		BRRM F 5 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 5 A_Facetarget
+		BRRM F 4 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 4 A_Facetarget
+		BRRM F 3 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 3 A_Facetarget
+		BRRM F 2 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 2 A_Facetarget
+		BRRM F 1 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 1 A_Facetarget
+		BRRM F 1 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 1 A_Facetarget
+		BRRM F 1 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 1 A_Facetarget
+		BRRM F 1 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 1 A_Facetarget
+		BRRM F 1 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 1 A_Facetarget
+		BRRM F 1 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 1 A_Facetarget
+		BRRM F 1 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 1 A_Facetarget
+	RailgunRashLoop:
+		TNT1 A 0 A_JumpIf(user_count < 0, "See")
+		BRRM F 1 Bright A_CustomMissile("BeakRail", 50,24, random(-15,15))
+		BRRM E 1 //A_Facetarget
+			TNT1 A 0 A_SetUserVar("user_count", user_count - 1)
+		Loop
+	BFGWall:
+		BRRM EEE 5 A_Facetarget
+		/*TNT1 A 0 A_CustomMissile("BreakBFG", 10, user_bfghoriz, 0)
+	BFGWallSet:
+		TNT1 A 0 A_JumpIf(user_bfgheight >= 40,	"BFGWallWait")
+		TNT1 A 0 A_SetUserVar("user_bfgheight", user_bfgheight + 10)
+		TNT1 A 0 A_SetUserVar("user_bfghoriz", 0)
+		TNT1 A 0 A_JumpIf(user_bfghoriz >= 60,	"BFGWallSet")
+		BRRM E 0 A_CustomMissile("BreakBFG", user_bfgheight, user_bfghoriz+15)
+		Goto BFGWallSet+3
+	BFGWallWait:
+		BRRM F 2 Bright A_Facetarget
+		BRRM E 56
+		BRRM F 2 Bright A_Facetarget
+		Goto See*/
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+		TNT1 A 0 A_CustomMissile("BreakBFG", frandom(10, 160), frandom(-240, 240), 0)
+	BFGWallWait:
+		BRRM F 2 Bright A_Facetarget
+		BRRM E 56
+		BRRM F 2 Bright A_Facetarget
+		Goto See
+	Redstara:
+		BRRM J 0 A_Jump(128,"Redgrenade","Redstarb", "Nuclear")
+		BRRM J 8 A_Facetarget
+		BRRM K 8 Bright A_CustomMissile("BreakRedstar", 50,-24, 0, 0)
+		Goto See
+	Redgrenade:
+		BRRM J 8 A_Facetarget
+		BRRM K 8 Bright A_CustomMissile("BreakRedgrenade", 50,-24, 0, 0)
+		Goto See
+	Redstarb:
+		BRRM J 8 A_Facetarget
+		BRRM K 8 Bright A_CustomMissile("BreakRedstar", 50,-24, 0, 0)
+		Goto See
+	Nuclear:
+		TNT1 A 0 A_UnSetShootable
+		TNT1 A 0 A_Changeflag(REFLECTIVE, True)
+		TNT1 A 0 A_PlaySound("weapons/nuclearmissilecharge2", 0, 2.0, false, 0)
+		BRRM EE 1 A_Facetarget
+		BRRM EE 2 Bright
+		BRRM EE 2 A_Facetarget
+		BRRM EE 2 Bright
+		BRRM EE 2 A_Facetarget
+		BRRM EE 2 Bright
+		BRRM EE 2 A_Facetarget
+		BRRM EE 2 Bright
+		BRRM EE 2 A_Facetarget
+		BRRM EE 2 Bright
+		BRRM EE 2 A_Facetarget
+		BRRM EE 2 Bright
+		BRRM EE 2 A_Facetarget
+		BRRM F 6 Bright A_CustomMissile("BreakNuclearMissileShot",50,24,0,0)
+		BRRM EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE 2 Bright
+		TNT1 A 0 A_Changeflag(REFLECTIVE, False)
+		TNT1 A 0 A_SetShootable
+		Goto See
+	Death:
+		//TNT1 A 0 A_Jump(100, "Sbroken")
+		BRRM M 6 A_Scream
+		BRRM N 4 A_KillChildren
+		BRRM OPQ 4 Bright
+		/*BRRM R 0 Bright A_FaceTarget
+		BRRM R 0 Bright A_SpawnItemEx("BreakTerminatorHead", 15, 0, 90, 10, 0, 0, -170, 128)
+		BRRM R 0 Bright A_SpawnItemEx("BreakTerminatorShoulder", 60, 0, 75, 8, 0, 0, -70, 128)
+		BRRM R 0 Bright A_SpawnItemEx("BreakRune",0,0,64,random(1,8),random(1,8),2,random(0,360),0,0)
+		BRRM R 0 Bright A_SpawnItemEx("BreakRune",0,0,64,random(1,8),random(1,8),2,random(0,360),0,0)
+		BRRM R 0 Bright A_SpawnItemEx("BreakArmor",0,0,64,random(1,8),random(1,8),2,random(0,360),0,0)
+		BRRM R 0 Bright A_SpawnItemEx("BreakArmor",0,0,64,random(1,8),random(1,8),2,random(0,360),0,0)
+		BRRM R 0 Bright A_SpawnItemEx("BreakArmor",0,0,64,random(1,8),random(1,8),2,random(0,360),0,0)
+		BRRM R 0 Bright A_SpawnItemEx("LegendaryRune2",0,0,64,random(1,8),random(1,8),2,random(0,360),0,0)
+		BRRM R 0 Bright A_SpawnItemEx("LifeLegendaryRune",0,0,64,random(1,8),random(1,8),2,random(0,360),0,0)
+		BRRM R 0 Bright A_SpawnItemEx("SuperLegendaryRune",0,0,64,random(1,8),random(1,8),2,random(0,360),0,0)
+		BRRM R 0 Bright A_SpawnItemEx("TrueLegendaryRune",0,0,64,random(1,8),random(1,8),2,random(0,360),0,0)
+		BRRM R 0 Bright A_SpawnItemEx("VoidRune",0,0,64,random(1,8),random(1,8),2,random(0,360),0,0)
+		BRRM R 0 Bright A_SpawnItemEx("VoidRune",0,0,64,random(1,8),random(1,8),2,random(0,360),0,0)
+		BRRM R 0 Bright A_SpawnItemEx("Terminator",0,0,64,random(1,8),random(1,8),2,random(0,360),0,0)
+		BRRM R 0 Bright A_SpawnItemEx("Terminator",0,0,64,random(1,8),random(1,8),2,random(0,360),0,0)
+		BRRM R 0 Bright A_SpawnItemEx("Terminator",0,0,64,random(1,8),random(1,8),2,random(0,360),0,0)
+		BRRM R 0 Bright A_SpawnItemEx("Terminator",0,0,64,random(1,8),random(1,8),2,random(0,360),0,0)
+		BRRM R 0 Bright A_SpawnItemEx("Nemesis",0,0,64,random(1,8),random(1,8),2,random(0,360),0,0)
+		BRRM R 0 Bright A_SpawnItemEx("NuclearMissileLauncher",0,0,64,random(1,8),random(1,8),2,random(0,360),0,0)
+		BRRM R 0 Bright A_SpawnItemEx("NuclearMissileLauncher",0,0,64,random(1,8),random(1,8),2,random(0,360),0,0)
+		BRRM R 0 Bright A_SpawnItemEx("NuclearMissileBox",0,0,64,random(1,8),random(1,8),2,random(0,360),0,0)
+		BRRM R 0 Bright A_SpawnItemEx("NuclearMissileBox",0,0,64,random(1,8),random(1,8),2,random(0,360),0,0)
+		BRRM R 0 Bright A_SpawnItemEx("BreakUltaDoomSphere",0,0,64,random(1,8),random(1,8),2,random(0,360),0,0)
+		BRRM R 0 Bright A_SpawnItemEx("BreakChaingun",0,0,64,random(1,8),random(1,8),2,random(0,360),0,0)
+		BRRM R 0 Bright A_SpawnItemEx("BreakCannon",0,0,64,random(1,8),random(1,8),2,random(0,360),0,0)
+		BRRM R 4 Bright A_SpawnItemEx("BreakTerminatorArm", 60, 0, 0, 3, 0, 0, -90, 128)*/
+		BRRM STUV 4 Bright
+		BRRM W 4 
+		BRRM X 6 A_Fall
+		BRRM Y 6
+		BRRM Z 1 A_Playsound("Terminator/terstepA")
+		BRRM Z 5 
+		BRRM [ -1	
+		Stop
+	Sbroken:
+		BRRM M 6 A_Scream
+		BRRM N 4 
+		BRRM OPQ 4 Bright
+		BRRM R 4 Bright
+		BRRM STUV 4 Bright
+		BRRM W 4 
+		BRRM X 6
+		BRRM Y 6
+		BRRM Z 1 A_Playsound("Terminator/terstepA")
+		BRRM Z 5
+		BRRM ZZZZZZZZ 5 Bright
+		BRRM ZZZZZZZZ 1 Bright A_Playsound("Terminator/terstepA")
+		BRRM YYYYYYYY 6 Bright
+		BRRM XXXXXXXX 6 Bright
+		BRRM WWWWWWWW 4 Bright
+		BRRM SSSSSSSSTTTTTTTTUUUUUUUUVVVVVVVV 4 Bright
+		BRRM RRRRRRRR 4 Bright
+		BRRM OOOOOOOOPPPPPPPPQQQQQQQQ 4 Bright
+		BRRM NNNNNNNN 4 Bright
+		BRRM MMMMMMMM 6 Bright A_Scream
+		BRRM M 1 Bright A_SpawnItemEx("BrokenTerminatorSpawner",0,0,0,0,0,0,0,32)
+		BRRM M 0 Bright A_Fadeout(1)
+		Stop 
+	}
+}
+
+Actor BreakBFG :	LegCyberBFG9500Ball
+{
+	//+SEEKERMISSILE
+	Speed 60
+	Obituary "%o was shown no mercy from the Nemesis Cyberdemon!"
+	Decal Scorch
+	Damagetype "Break"
+	Species "Break"
+	+THRUSPECIES
+	+MTHRUSPECIES
+	+NOGRAVITY
+	var int user_count;
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay A_Stop
+		TNT1 A 0 A_SetUserVar("user_count", 10)
+	Stoppng:
+		TNT1 A 0 A_JumpIf(user_count <= 0, "Go")
+		NBF9 AAA 1 Bright
+		NBF9 BBB 1 Bright
+		TNT1 A 0 A_SetUserVar("user_count", user_count - 1)
+		Loop
+	Go:
+		TNT1 A 0 A_ChangeVelocity(60, 0, 0, CVF_RELATIVE)
+		NBF9 AAA 1 Bright A_SpawnItemEx("BFGTrailParticleWhite",Random(-12,12),Random(-12,12),Random(-12,12),Random(-2,2),Random(-2,2),Random(-2,2),Random(-20,20),128)
+		//TNT1 A 0 A_SeekerMissile(3,5)
+		NBF9 BBB 1 Bright A_SpawnItemEx("BFGTrailParticleWhite",Random(-12,12),Random(-12,12),Random(-12,12),Random(-2,2),Random(-2,2),Random(-2,2),Random(-20,20),128)
+		//TNT1 A 0 A_SeekerMissile(3,5)
+		Goto Go+1
+	Death:
+		TNT1 A 0
+		TNT1 A 0 A_SpawnItemEx("NemesisBFGShockwave", 0, 0, 0, 0, 0, 0, 0, 128)
+		TNT1 AAAAAA 0 A_CustomMissile("WhiteNemesisKaboomNoSound", 0, 0, random(0,360), 2, random(0,360))
+		NFE3 AB 4 Bright A_SpawnItemEx("NemesisWhiteParticleSpawner", 0, 0, 0, 0, 0, 0, 0, 128)
+		NFE3 C 4 Bright A_BFGSpray("BreakSpray")
+		NFE3 DEF 4 Bright
+		Stop
+	}
+}
+
+Actor BreakSpray : NemesisSpray
+{
+	Damagetype "Break"
+	Species "Break"
+}
+
+Actor BreakSeekBall : DevastatorBolt
+{
+	Speed 30
+	Damage (random(5, 25))
+	Alpha 1.0
+	Scale 0.4
+	+NOTIMEFREEZE
+	Damagetype "Break"
+	Species "Break"
+	+THRUSPECIES
+	+MTHRUSPECIES
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		CLBA DDDDDDDDDDDDDDDDDDDDDDDDDDDDDD 1 Bright A_SpawnItemEx("NemesisWhiteProjParticleSuperLarge",0,0,0,0,frandom(-1,1),frandom(-1,1),random(0,359))
+	SeekLoop:
+		TNT1 A 0 A_Seekermissile(5,5,SMF_LOOK)
+		CLBA D 1 Bright A_SpawnItemEx("NemesisWhiteProjParticleSuperLarge",0,0,0,0,frandom(-1,1),frandom(-1,1),random(0,359))
+		Loop
+	Death:
+		TNT1 A 0
+		TNT1 AAAAAAAAA 0 A_SpawnItemEx("NemesisWhiteProjParticleSuperLarge",0,0,0,frandom(-2,2),frandom(-2,2),frandom(-2,2),random(0,359))
+		CLBA D 1 Bright A_FadeOut(0.2)
+		Goto Death+10
+	}
+}
+
+Actor BeakRail : DarkCyberRail
+{
+	MissileType "BeakRailTrail"
+	Damagetype "Break"
+	Species "Break"
+	+THRUSPECIES
+	+MTHRUSPECIES
+	+NOTIMEFREEZE
+	States
+	{
+	Spawn:
+		DCRP A 1 Bright
+		Loop
+	Death:
+		TNT1 A 0
+		TNT1 A 0 A_SpawnItemEx("NemesisBFGShockwave", 0, 0, 0, 0, 0, 0, 0, 128)
+		TNT1 AAA 0 A_CustomMissile("Kaboom14", 0, 0, random(0,360), 2, random(0,360))
+		TNT1 A 1 A_SpawnItem("RailgunImpactEffectRed")
+		Stop
+	}
+}
+
+Actor BeakRailTrail : BFG9500Trail
+{
+	Scale 1
+	Damagetype "Break"
+	Species "Break"
+	+THRUSPECIES
+	+MTHRUSPECIES
+	+NOTIMEFREEZE
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		BWRG ABCDEFGHIJKLMNOP 2 A_FadeOut(0.04)
+	Stop
+	}
+}
+
+Actor FakeBreakTerminator// : RMTerminator
+{ 
+	Radius 28 
+	Height 86 
+	scale 1.4
+	Species "Break"
+	Alpha 1.0
+	Obituary "%o was broken by a Break Terminator."
+	+ISMONSTER
+	+FLOORCLIP 
+	+NORADIUSDMG
+	+NOTIMEFREEZE
+	+NOFEAR
+	+CANTSEEK
+	+SEEINVISIBLE
+	+NOEXTREMEDEATH
+	+TELESTOMP
+	+NOTELEFRAG
+	+NOBLOOD
+	+NOBLOCKMONST
+	+DONTRIP
+	+DONTMORPH
+	+DONTGIB
+	+DROPOFF
+	-SHOOTABLE
+	+NOTIMEFREEZE
+	+NODAMAGE
+	+NOPAIN
+	SeeSound "monster/dtermsit" 
+	PainSound "monster/dtermpin" 
+	DeathSound "monster/termdth"
+	AttackSound "plasmaminigun/fire"
+	ActiveSound "Terminator/dtermact"
+	var int user_count;
+	States
+	{
+		Spawn:
+			TNT1 A 0 NoDelay A_SetUserVar("user_count", 40)
+			BRRM E 105
+		Railgun2Loop:
+			TNT1 A 0 A_JumpIf(user_count < 0, "End")
+			BRRM FF 2 Bright A_CustomMissile("BeakRail", 50,24, random(-120,120), CMF_AIMDIRECTION)
+			BRRM E 2
+			TNT1 A 0 A_SetUserVar("user_count", user_count - 1)
+			Goto Railgun2Loop
+		End:
+			BRRM E 1 Bright A_FadeOut(0.2)
+			Loop
+		See:
+		Death:
+			TNT1 A 1
+			Stop
+	}
+}
+
+Actor BreakBeacon
+{
+	Health 3000
+	Mass 0x7FFFFFFD
+	+ISMONSTER
+	+FLOORCLIP 
+	+NORADIUSDMG
+	+NOTIMEFREEZE
+	+NOFEAR
+	+CANTSEEK
+	+SEEINVISIBLE
+	+NOEXTREMEDEATH
+	+TELESTOMP
+	+NOTELEFRAG
+	+NOBLOOD
+	+NOBLOCKMONST
+	+DONTRIP
+	+DONTMORPH
+	+DONTGIB
+	+DROPOFF
+	+SHOOTABLE
+	+NOTIMEFREEZE
+	//+NODAMAGE
+	+NOPAIN
+	+CANNOTPUSH
+	Radius 48
+	Height 144
+	Scale 3.0
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay A_SpawnItemEx("BreakSteam1", 400, 0, 0, 0, 0, 0, 0, SXF_SETMASTER)
+		TNT1 A 0 A_SpawnItemEx("BreakSteam2", 0, -400, 0, 0, 0, 0, 0, SXF_SETMASTER)
+		TNT1 A 0 A_SpawnItemEx("BreakSteam3", 0, 400, 0, 0, 0, 0, 0, SXF_SETMASTER)
+		TNT1 A 0 A_SpawnItemEx("BreakSteam4", -400, 0, 0, 0, 0, 0, 0, SXF_SETMASTER)
+	BeaconLoop:
+		PLOB A 1 bright
+		TNT1 A 0 A_SetAngle(angle + 10)
+		PLOB B 1 bright //A_SpawnItemEx("BreakSteam", 100, 0, 0, 0, 0, 0, 0)
+		TNT1 A 0 A_SetAngle(angle + 10)
+		PLOB C 1 bright //A_SpawnItemEx("BreakSteam", 100, 0, 0, 0, 0, 0, 0)
+		TNT1 A 0 A_SetAngle(angle + 10)
+		PLOB D 1 bright //A_SpawnItemEx("BreakSteam", 100, 0, 0, 0, 0, 0, 0)
+		TNT1 A 0 A_SetAngle(angle + 10)
+		Goto BeaconLoop
+	Death:
+		TNT1 A 1
+		Stop
+	}
+}
+
+Actor BreakSteam// : SwitchableDecoration //DoomEdNum Here
+{
+	Height 2
+	Radius 1
+	Mass 0
+	+NoBlockMap
+	+NoGravity
+	//+NoInteraction
+	+ClientSideOnly
+	+ISMONSTER
+	-SHOOTABLE
+	+CANNOTPUSH
+	+CANTSEEK
+	+NOTARGET
+	+NODAMAGE
+	+NOBLOOD
+	+NOPAIN
+	+THRUACTORS
+	+NOCLIP
+	States
+	{
+	Spawn:
+	//Active:
+		TNT1 A 0 NoDelay A_JumpIfMasterCloser(1000.0, 1)
+	Goto End
+		TNT1 A 1 A_SpawnItemEx("BreakSteamParticle", 0, 0, 1, (0.1)*Random(0, 4), 0, (0.1)*Random(35, 40), Random(0, 360), 128)
+	TNT1 A 0 A_Warp(AAPTR_MASTER, 400, 0, 0, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	Down:
+		TNT1 A 0 A_JumpIf(Args[1] > 0, "DownBurst")
+		TNT1 A 0 A_JumpIf(Args[3] > 0, 2)
+		TNT1 A 0 A_PlaySoundEx("Steam/Loop", "SoundSlot7", 1)
+		TNT1 A 1 A_SpawnItemEx("SteamParticle", 0, 0, 0, (0.1)*Random(0, 4), 0, (-0.1)*Random(35, 40), Random(0, 360), 128)
+		Loop
+	Forward:
+		TNT1 A 0 A_JumpIf(Args[1] > 0, "ForwardBurst")
+		TNT1 A 0 A_JumpIf(Args[3] > 0, 2)
+		TNT1 A 0 A_PlaySoundEx("Steam/Loop", "SoundSlot7", 1)
+		TNT1 A 1 A_SpawnItemEx("SteamParticle", 0, 0, 0, (0.1)*Random(35, 40), 0, (0.1)*Random(-5, 5), Random(-8, 8), 128)
+		Loop
+	UpBurst:
+		TNT1 A 1 A_Jump(Args[2]/16, 1)
+		Loop
+		TNT1 A 0 A_JumpIf(Args[3] > 0, 2)
+		TNT1 A 0 A_PlaySoundEx("Steam/Fire", "SoundSlot7", 0)
+		TNT1 AAAAAAAAAA 1 A_SpawnItemEx("SteamParticle", 0, 0, 1, (0.1)*Random(0, 4), 0, (0.1)*Random(35, 40), Random(0, 360), 128)
+		TNT1 AAAAAAAAAA 1 A_SpawnItemEx("SteamParticle", 0, 0, 1, (0.1)*Random(0, 4), 0, (0.1)*Random(35, 40), Random(0, 360), 128)
+		TNT1 AAAAAAAAAA 1 A_SpawnItemEx("SteamParticle", 0, 0, 1, (0.1)*Random(0, 4), 0, (0.1)*Random(35, 40), Random(0, 360), 128)
+		Loop
+	DownBurst:
+		TNT1 A 1 A_Jump(Args[2]/16, 1)
+		Loop
+		TNT1 A 0 A_JumpIf(Args[3] > 0, 2)
+		TNT1 A 0 A_PlaySoundEx("Steam/Fire", "SoundSlot7", 0)
+		TNT1 AAAAAAAAAA 1 A_SpawnItemEx("SteamParticle", 0, 0, 0, (0.1)*Random(0, 4), 0, (-0.1)*Random(35, 40), Random(0, 360), 128)
+		TNT1 AAAAAAAAAA 1 A_SpawnItemEx("SteamParticle", 0, 0, 0, (0.1)*Random(0, 4), 0, (-0.1)*Random(35, 40), Random(0, 360), 128)
+		TNT1 AAAAAAAAAA 1 A_SpawnItemEx("SteamParticle", 0, 0, 0, (0.1)*Random(0, 4), 0, (-0.1)*Random(35, 40), Random(0, 360), 128)
+		Loop
+	ForwardBurst:
+		TNT1 A 1 A_Jump(Args[2]/16, 1)
+		Loop
+		TNT1 A 0 A_JumpIf(Args[3] > 0, 2)
+		TNT1 A 0 A_PlaySoundEx("Steam/Fire", "SoundSlot7", 0)
+		TNT1 AAAAAAAAAA 1 A_SpawnItemEx("SteamParticle", 0, 0, 0, (0.1)*Random(35, 40), 0, (0.1)*Random(-5, 5), Random(-8, 8), 128)
+		TNT1 AAAAAAAAAA 1 A_SpawnItemEx("SteamParticle", 0, 0, 0, (0.1)*Random(35, 40), 0, (0.1)*Random(-5, 5), Random(-8, 8), 128)
+		TNT1 AAAAAAAAAA 1 A_SpawnItemEx("SteamParticle", 0, 0, 0, (0.1)*Random(35, 40), 0, (0.1)*Random(-5, 5), Random(-8, 8), 128)
+		Loop
+	Inactive:
+		TNT1 A 1 A_StopSoundEx("SoundSlot7")
+		TNT1 A 1
+		Goto Inactive+1
+	End:
+		TNT1 A 1
+		Stop
+	}
+}
+
+Actor BreakSteam1 : BreakSteam
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay A_JumpIfMasterCloser(1000.0, 1)
+	Goto End
+		TNT1 A 1 A_SpawnItemEx("BreakSteamParticle", 0, 0, 1, (0.1)*Random(0, 4), 0, (0.1)*Random(35, 40), Random(0, 360), 128)
+	TNT1 A 0 A_Warp(AAPTR_MASTER, 800, 0, 0, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+	
+Actor BreakSteam2 : BreakSteam
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay A_JumpIfMasterCloser(1000.0, 1)
+	Goto End
+		TNT1 A 1 A_SpawnItemEx("BreakSteamParticle", 0, 0, 1, (0.1)*Random(0, 4), 0, (0.1)*Random(35, 40), Random(0, 360), 128)
+	TNT1 A 0 A_Warp(AAPTR_MASTER, 0, -800, 0, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakSteam3 : BreakSteam
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay A_JumpIfMasterCloser(1000.0, 1)
+	Goto End
+		TNT1 A 1 A_SpawnItemEx("BreakSteamParticle", 0, 0, 1, (0.1)*Random(0, 4), 0, (0.1)*Random(35, 40), Random(0, 360), 128)
+	TNT1 A 0 A_Warp(AAPTR_MASTER, 0, 800, 0, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakSteam4 : BreakSteam
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0 NoDelay A_JumpIfMasterCloser(1000.0, 1)
+	Goto End
+		TNT1 A 1 A_SpawnItemEx("BreakSteamParticle", 0, 0, 1, (0.1)*Random(0, 4), 0, (0.1)*Random(35, 40), Random(0, 360), 128)
+	TNT1 A 0 A_Warp(AAPTR_MASTER, -800, 0, 0, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakSteamParticle
+{
+	Height 1
+	Radius 1
+	+Missile
+	+NoGravity
+	+NoBlockMap
+	RenderStyle Add
+	Scale 4.0
+	Alpha 0.65
+	
+	States
+	{
+	Spawn:
+		STEM A 2 A_SetTranslucent(0.6, 1)
+		STEM B 2 A_SetTranslucent(0.55, 1)
+		STEM C 2 A_SetTranslucent(0.5, 1)
+		STEM D 2 A_SetTranslucent(0.45, 1)
+		STEM E 2 A_SetTranslucent(0.4, 1)
+		STEM F 2 A_SetTranslucent(0.35, 1)
+		STEM G 2 A_SetTranslucent(0.3, 1)
+		STEM H 2 A_SetTranslucent(0.25, 1)
+		STEM I 2 A_SetTranslucent(0.2, 1)
+		STEM J 2 A_SetTranslucent(0.15, 1)
+		STEM K 2 A_SetTranslucent(0.1, 1)
+		STEM L 2 A_SetTranslucent(0.05, 1)
+		Stop
+	}
+}
+
+
+Actor BreakRailLaser : VexedNemesisImpLaser
+{
+	Damage (Random(65,150))
+	Missiletype "BreakRailLaserTrail"
+	Damagetype "Break"
+	Species "Break"
+	+THRUSPECIES
+	+MTHRUSPECIES
+	+NOTIMEFREEZE
+}
+
+Actor BreakRailLaserTrail : VexedNemesisImpLaserTrail
+{
+	Damagetype "Break"
+	Species "Break"
+	+THRUSPECIES
+	+MTHRUSPECIES
+	+NOTIMEFREEZE
+}
+
+Actor Break10kProjectile : FastProjectile
+{
+	Height 1
+	Radius 1
+	Speed 200
+	Projectile
+	+THRUSPECIES
+	+MTHRUSPECIES
+	+NOTIMEFREEZE
+	+NOEXTREMEDEATH
+	+DONTHARMSPECIES
+	+FORCERADIUSDMG
+	Decal "Scorch"
+	Renderstyle Add
+	Alpha 1
+	Scale 0.5
+	deathsound "weapons/bfg95explode"
+	DamageType "Break"
+	States
+	{
+	Spawn:
+		B1KP A 1 Bright
+		Loop
+	Death:
+		TNT1 A 0
+		TNT1 A 0 A_SetScale(0.85)
+		TNT1 A 0 A_FadeOut(0.25)
+		TNT1 A 0 A_SpawnItem("NemesisWhiteProjExplode")
+		TNT1 A 0 A_SpawnItemEx("NemesisBFGShockwave",0,0,0,0,0,0,0,SXF_CLIENTSIDE,0)
+		TNT1 AA 0 A_SpawnItemEx("NemesisWhiteParticleSpawner",0,0,0,0,0,0,0,SXF_CLIENTSIDE,0)
+		TNT1 AAA 0 A_CustomMissile("WhiteNemesisKaboomNoSound",0,0,random(0,360),CMF_AIMDIRECTION,random(0,360))
+		NFE3 A 4 Bright A_Explode(180,180,0)
+		NFE3 BCDEF 4 Bright
+		Stop
+	}
+}
+
+
+Actor BreakTerminatorBlaster
+{ 
+	Radius 8
+	Height 12
+	Speed 60
+	Damage 15
+	PROJECTILE
+	RENDERSTYLE ADD
+	Species "Break"
+	alpha 0.85
+	SeeSound "monster/brufir"
+	DeathSound "weapons/hellex"
+	+NOTIMEFREEZE
+	+THRUSPECIES
+	DamageType "Break"
+	Decal RevenantScorch
+	States
+	{
+	Spawn: 
+		BRST A 1 Bright 
+		loop
+	Death:
+		BRST B 6 Bright A_Explode(120,72,0)
+		BRST CDEFGHIJKL 3 Bright 
+		stop
+	}
+}
+
+Actor BreakRedstar
+{
+		Radius 10
+		Height 20
+		Speed 13
+		Damage (random(16,32))
+		Scale 0.6
+		+SEEKERMISSILE
+	+DROPOFF
+	+NOTIMEFREEZE
+	+THRUSPECIES
+		PROJECTILE
+	Species "Break"
+		RENDERSTYLE ADD
+		ALPHA 0.8
+		SeeSound "Terminator/tershotA"
+		DeathSound "imp/shotx"
+	DamageType "Break"
+		Decal CacoScorch
+		States
+		{
+		Spawn:
+			BRAR A 3 Bright A_SeekerMissile (89,90,SMF_PRECISE)
+			BRAR B 3 Bright A_SeekerMissile (89,90,SMF_PRECISE)
+			BRAR C 3 Bright A_SeekerMissile (89,90,SMF_PRECISE)
+			BRAR D 3 Bright A_SeekerMissile (89,90,SMF_PRECISE)
+			Loop
+		Death:
+			BRAR EFGHIJKLMNO 3 Bright
+			Stop
+		}
+}
+
+Actor BreakRedgrenade
+{
+		Radius 6
+		Height 12
+		Speed 30
+		Damage 30
+		PROJECTILE
+	Species "Break"
+	+NOTIMEFREEZE
+	+THRUSPECIES
+		RENDERSTYLE ADD
+		ALPHA 0.8
+		DeathSound "imp/shotx"
+	DamageType "Break"
+		States
+		{
+		Spawn:
+			BRND A 0
+			BRND A 1 Bright
+			BRND A 1 Bright A_Playsound("Terminator/tershotA")
+			BRND BBBBCCCCAAAA 1 Bright A_SpawnItemEx("Breakgrenadetrail",0,0,0,0,0,0,0,128)
+			BRND A 0 A_Jumpifcloser(48, 1)
+			Goto Spawn+3
+		Death:
+			BRAR E 3 Bright A_Explode(40,72,1)
+			BRAR E 0 Bright A_custommissile("Breakgrenadeblast",0,0,0,2,0)
+			BRAR E 0 Bright A_custommissile("Breakgrenadeblast",0,0,20,2,0)
+			BRAR E 0 Bright A_custommissile("Breakgrenadeblast",0,0,40,2,0)
+			BRAR E 0 Bright A_custommissile("Breakgrenadeblast",0,0,60,2,0)
+			BRAR E 0 Bright A_custommissile("Breakgrenadeblast",0,0,80,2,0)
+			BRAR E 0 Bright A_custommissile("Breakgrenadeblast",0,0,100,2,0)
+			BRAR E 0 Bright A_custommissile("Breakgrenadeblast",0,0,120,2,0)
+			BRAR E 0 Bright A_custommissile("Breakgrenadeblast",0,0,140,2,0)
+			BRAR E 0 Bright A_custommissile("Breakgrenadeblast",0,0,160,2,0)
+			BRAR E 0 Bright A_custommissile("Breakgrenadeblast",0,0,180,2,0)
+			BRAR E 0 Bright A_custommissile("Breakgrenadeblast",0,0,200,2,0)
+			BRAR E 0 Bright A_custommissile("Breakgrenadeblast",0,0,220,2,0)
+			BRAR E 0 Bright A_custommissile("Breakgrenadeblast",0,0,240,2,0)
+			BRAR E 0 Bright A_custommissile("Breakgrenadeblast",0,0,260,2,0)
+			BRAR E 0 Bright A_custommissile("Breakgrenadeblast",0,0,280,2,0)
+			BRAR E 0 Bright A_custommissile("Breakgrenadeblast",0,0,300,2,0)
+			BRAR E 0 Bright A_custommissile("Breakgrenadeblast",0,0,320,2,0)
+			BRAR E 0 Bright A_custommissile("Breakgrenadeblast",0,0,340,2,0)
+			BRAR FGHIJKLMNO 3 Bright
+			Stop
+		}
+}
+
+Actor BreakGrenadetrail
+{		
+		PROJECTILE
+		+NOCLIP
+	+NOTIMEFREEZE
+	+THRUSPECIES
+	+CLIENTSIDEONLY
+	Damage 0
+	Species "Break"
+			Renderstyle ADD
+	Alpha 0.6
+	DamageType Redblast
+	Damage 0
+	States
+	{	
+	Spawn:
+			BRTR ABCDEFGHI 4 Bright 
+			Stop
+	}
+} 
+
+
+Actor BreakGrenadeblast
+{
+		Radius 6
+		Height 12
+		Speed 50
+		Damage 45
+		PROJECTILE
+	+NOTIMEFREEZE
+	+THRUSPECIES
+		RENDERSTYLE ADD
+		ALPHA 0.8
+	Species "Break"
+		SeeSound "imp/attack"
+		DeathSound "imp/shotx"
+	DamageType "Break"
+		States
+		{
+		Spawn:
+			BRBL ABCDEFGHIJK 2 Bright
+			stop
+		}
+}
+
+
+Actor BreakTerminatorpuff : Bulletpuff
+{			
+		Renderstyle ADD
+	Alpha 0.75
+	scale 0.75
+	Decal Bulletchip
+	+NOTIMEFREEZE
+	+THRUSPECIES
+	Species "Break"
+	DamageType "Break"
+	States
+	{
+	Spawn:
+	Melee:
+			BRUF A 2 Bright
+			BRUF A 0 A_Jump(128,10)
+			BRUF BCDEFGH 2 Bright
+			Stop
+			BRUF IJKLMNO 2 Bright 
+			Stop
+	}
+} 
+
+Actor BreakTerminatorArm
+{
+	Radius 12
+	Height 15
+	Speed 3
+	Mass 1000
+	scale 1.2
+	+NOTIMEFREEZE
+	+DOOMBOUNCE
+	+CLIENTSIDEONLY
+	States
+	{
+	Spawn:
+		BARM A 5
+		BARM B 5 A_Fall 
+		BARM CDE 5
+		BARM F -1
+		Stop
+	}
+}
+
+Actor BreakTerminatorHead
+{
+	Radius 6
+	Height 8
+	Speed 10
+	Mass 1000
+	+NOTIMEFREEZE
+	+DOOMBOUNCE
+	+DROPOFF
+	+CLIENTSIDEONLY
+	+Missile
+	scale 1.2
+	States
+	{
+	Spawn:
+		BHAD DEFGHABC 2
+		loop
+	Death:
+		BHAD I -1
+		loop
+	}
+}
+
+Actor BreakTerminatorShoulder
+{
+	Radius 8
+	Height 8
+	Speed 8
+	Mass 1000
+	+NOTIMEFREEZE
+	+DOOMBOUNCE
+	+DROPOFF
+	+CLIENTSIDEONLY
+	+Missile
+	scale 1.2	
+	States
+	{
+	Spawn:
+		BRHO ABCDEFGH 2
+		loop
+	Death:
+		BRHO I -1
+		loop
+	}
+}
+
+Actor BreakNuclearMissileShot
+{
+	Radius 13
+	Height 8
+	Speed 40
+	Damage 10000000
+	PROJECTILE
+	+NOTIMEFREEZE
+	+THRUSPECIES
+	+FULLVOLDEATH
+	-RIPPER
+	-CANNOTPUSH
+	-NODAMAGETHRUST
+	Damagetype "Break"
+	Species "Break"
+	DeathSound "weapons/nuclearmissileexplode"
+	States
+	{
+	Spawn:
+		BKS1 A 1 Bright
+		Loop
+	Death:
+		MISL BBBBBBBBB 8 Bright A_Explode(10000000,256,0,false,256)
+		MISL CCCCCCCCC 6 Bright
+		MISL DDDDDDDDDD 4 Bright
+		Stop
+	}
+}
+
+Actor BreakBeam : MageWandMissile
+{
+	Speed 180
+	Radius 13
+	Height 8
+	Damage (random(16,32))
+	Damagetype "Break"
+	Species "Break"
+	+NOTIMEFREEZE
+	+THRUSPECIES
+	-RIPPER
+	-CANNOTPUSH
+	-NODAMAGETHRUST
+	states
+	{
+	Death:
+		APBX BCDE 3 bright
+		stop
+	}
+}
+
+Actor BeamTrail : MageWandSmoke replaces MageWandSmoke
+{
+	RenderStyle Add
+	Scale 0.4
+	Species "Break"
+	Damage 0
+	+NOTIMEFREEZE
+	+THRUSPECIES
+	+CLIENTSIDEONLY
+	States
+	{
+	Spawn:
+		APBX BCD 1
+		stop
+	}
+}
+
+Actor BrokenTerminatorSpawner : RandomSpawner
+{
+	Species "Break"
+	+NOTIMEFREEZE
+	+THRUSPECIES
+	DropItem "BrokenTerminator" 256
+}
+
+Actor BreakShieldPart
+{
+	Radius 15
+	Height 32
+	Scale 0.75
+	RenderStyle Add
+	Alpha 0.25
+	Bloodtype "BreakShieldHit"
+	Species "Break"
+	//Mass 0x7FFFFFFD
+	PainChance 0
+	VSpeed 0
+	Speed 0
+	Health 6000
+	+NOPAIN
+	+SHOOTABLE
+	+NOGRAVITY
+	+NOTELEPORT
+	//+NODAMAGE
+	+NORADIUSDMG
+	+DONTRIP
+	+NOBLOODDECALS
+	+FLOORCLIP
+	//+REFLECTIVE
+	+NOGRAVITY
+	+ISMONSTER
+	+THRUSPECIES
+	//+DONTTHRUST
+	//+AIMREFLECT
+	DamageFActor 0.55
+	DamageFActor "UltimateLegendary", 0.0
+	DamageFActor "PlayerNemesisPlasma", 0.4
+	DamageFActor "Explosion", 0.3
+	DamageFActor "Break", 0.0
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay
+		Loop
+	Death:
+		TNT1 A 2
+		Stop
+	}
+}
+
+Actor BreakShieldPartVisual
+{
+	Radius 12
+	Height 12
+	Scale 0.75
+	RenderStyle Add
+	Alpha 0.25
+	Speed 0
+	VSpeed 0
+	+NOINTERACTION
+	+THRUACTORS
+	+CLIENTSIDEONLY
+	+FLOORCLIP
+	+NOGRAVITY
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay
+		Loop
+	Death:
+		TNT1 A 2
+		Stop
+	}
+}
+
+Actor BreakShieldPart5_1 : BreakShieldPart
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, 0, 16, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPart5_2 : BreakShieldPart
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, 0, 32, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPart5_3 : BreakShieldPart
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, 0, 48, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPart5_4 : BreakShieldPart
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, 0, 64, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPart5_5 : BreakShieldPart
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, 0, 80, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPartVisual5_1 : BreakShieldPartVisual
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, 0, 32, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	Death:
+		TNT1 A 2
+		Stop
+	}
+}
+
+Actor BreakShieldPartVisual5_2 : BreakShieldPartVisual
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, 0, 48, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPartVisual5_3 : BreakShieldPartVisual
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, 0, 64, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+Actor BreakShieldPartVisual5_4 : BreakShieldPartVisual
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, 0, 80, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPart4up_1 : BreakShieldPart
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, 24, 24, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPart4up_2 : BreakShieldPart
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, 24, 40, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPart4up_3 : BreakShieldPart
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, 24, 56, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPart4up_4 : BreakShieldPart
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, 24, 72, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPartVisual4up_1 : BreakShieldPartVisual
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, 24, 40, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	Death:
+		TNT1 A 2
+		Stop
+	}
+}
+
+Actor BreakShieldPartVisual4up_2 : BreakShieldPartVisual
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, 24, 56, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPartVisual4up_3 : BreakShieldPartVisual
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, 24, 72, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPart4down_1 : BreakShieldPart
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, -24, 24, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPart4down_2 : BreakShieldPart
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, -24, 40, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPart4down_3 : BreakShieldPart
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, -24, 56, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPart4down_4 : BreakShieldPart
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, -24, 72, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPartVisual4down_1 : BreakShieldPartVisual
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, -24, 40, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	Death:
+		TNT1 A 2
+		Stop
+	}
+}
+
+Actor BreakShieldPartVisual4down_2 : BreakShieldPartVisual
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, -24, 56, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPartVisual4down_3 : BreakShieldPartVisual
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, -24, 72, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPart3up_1 : BreakShieldPart
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, 48, 32, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPart3up_2 : BreakShieldPart
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, 48, 48, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPart3up_3 : BreakShieldPart
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, 48, 64, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPartVisual3up_1 : BreakShieldPartVisual
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, 48, 48, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	Death:
+		TNT1 A 2
+		Stop
+	}
+}
+
+Actor BreakShieldPartVisual3up_2 : BreakShieldPartVisual
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, 48, 64, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPart3down_1 : BreakShieldPart
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, -48, 32, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPart3down_2 : BreakShieldPart
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, -48, 48, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPart3down_3 : BreakShieldPart
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, -48, 64, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldPartVisual3down_1 : BreakShieldPartVisual
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, -48, 48, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	Death:
+		TNT1 A 2
+		Stop
+	}
+}
+
+Actor BreakShieldPartVisual3down_2 : BreakShieldPartVisual
+{
+	States
+	{
+	Spawn:
+		SHPT A 1 Bright NoDelay A_Warp(AAPTR_MASTER, 64, -48, 64, 0, WARPF_NOCHECKPOSITION | WARPF_STOP | WARPF_COPYINTERPOLATION)
+		Loop
+	}
+}
+
+Actor BreakShieldSpawner5
+{
+	Radius 1
+	Height 1
+	+NOGRAVITY
+	+ISMONSTER
+	//+NOINTERACTION
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 1
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPart5_1", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPart5_2", 0, 0, 16, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPart5_3", 0, 0, 32, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPart5_4", 0, 0, 48, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPart5_5", 0, 0, 64, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		//TNT1 A 0 A_SpawnItemEx ("ShieldPartVisual", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		/*TNT1 A 0 A_SpawnItemEx ("BreakShieldPartVisual5_1", 0, 0, 16, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPartVisual5_2", 0, 0, 32, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPartVisual5_3", 0, 0, 48, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPartVisual5_4", 0, 0, 64, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)*/
+		stop
+	}
+}
+
+Actor BreakShieldSpawner4up
+{
+	Radius 1
+	Height 1
+	+NOGRAVITY
+	+ISMONSTER
+	//+NOINTERACTION
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 1
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPart4up_1", 0, 0, 8, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPart4up_2", 0, 0, 24, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPart4up_3", 0, 0, 40, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPart4up_4", 0, 0, 56, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		//TNT1 A 0 A_SpawnItemEx ("ShieldPartVisual", 0, 0, 8, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		/*TNT1 A 0 A_SpawnItemEx ("BreakShieldPartVisual4up_1", 0, 0, 24, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPartVisual4up_2", 0, 0, 40, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPartVisual4up_3", 0, 0, 56, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)*/
+		stop
+	}
+}
+
+Actor BreakShieldSpawner4down
+{
+	Radius 1
+	Height 1
+	+NOGRAVITY
+	+ISMONSTER
+	//+NOINTERACTION
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 1
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPart4down_1", 0, 0, 8, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPart4down_2", 0, 0, 24, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPart4down_3", 0, 0, 40, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPart4down_4", 0, 0, 56, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		//TNT1 A 0 A_SpawnItemEx ("ShieldPartVisual", 0, 0, 8, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		/*TNT1 A 0 A_SpawnItemEx ("BreakShieldPartVisual4down_1", 0, 0, 24, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPartVisual4down_2", 0, 0, 40, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPartVisual4down_3", 0, 0, 56, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)*/
+		stop
+	}
+}
+
+Actor BreakShieldSpawner3up
+{
+	Radius 1
+	Height 1
+	+NOGRAVITY
+	+ISMONSTER
+	//+NOINTERACTION
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 1
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPart3up_1", 0, 0, 16, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPart3up_2", 0, 0, 32, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPart3up_3", 0, 0, 48, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		//TNT1 A 0 A_SpawnItemEx ("ShieldPartVisual", 0, 0, 16, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION
+		/*TNT1 A 0 A_SpawnItemEx ("BreakShieldPartVisual3up_1", 0, 0, 32, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPartVisual3up_2", 0, 0, 48, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)*/
+		stop
+	}
+}
+
+Actor BreakShieldSpawner3down
+{
+	Radius 1
+	Height 1
+	+NOGRAVITY
+	+ISMONSTER
+	//+NOINTERACTION
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 1
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPart3down_1", 0, 0, 16, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPart3down_2", 0, 0, 32, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPart3down_3", 0, 0, 48, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		//TNT1 A 0 A_SpawnItemEx ("ShieldPartVisual", 0, 0, 16, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION
+		/*TNT1 A 0 A_SpawnItemEx ("BreakShieldPartVisual3down_1", 0, 0, 32, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldPartVisual3down_2", 0, 0, 48, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)*/
+		stop
+	}
+}
+
+Actor BreakShieldHit
+{
+	Radius 1
+	Height 1
+	Scale 0.5
+	Renderstyle Add
+	+NOGRAVITY
+	+NOINTERACTION
+	States
+	{
+	Spawn:
+		FHIT A 0 Bright
+		FHIT A 1 Bright A_Stop
+		FHIT A 0 Bright A_PlaySound("ForceBarrier/Hit")
+		FHIT BCDEFGH 1 Bright
+		stop
+	}
+}
+
+Actor BreakShieldSpawner
+{
+	Radius 1
+	Height 1
+	+NOGRAVITY
+	//+NOINTERACTION
+	+ISMONSTER
+	States
+	{
+	Spawn:
+		TNT1 A 1
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldSpawner5", 8, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldSpawner4up", 8, 24, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldSpawner4down", 8, -24, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldSpawner3up", 8, 48, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx ("BreakShieldSpawner3down", 8, -48, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS | SXF_NOCHECKPOSITION)
+		stop
+	Death:
+	TNT1 A 1
+	stop
+	}
+}

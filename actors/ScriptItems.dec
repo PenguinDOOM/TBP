@@ -1,0 +1,59 @@
+Actor MaxEXPItem : CustomInventory
+{
+	+INVENTORY.UNDROPPABLE
+	Inventory.MaxAmount 6143856 //ilog2(5000)*100
+	States
+	{
+		Spawn:
+			TNT1 A 0
+			Stop
+		Pickup:
+			TNT1 A 0
+			Stop
+		Use:
+			TNT1 A 0
+			Stop
+	}
+}
+
+Actor CurrentEXPItem : CustomInventory
+{
+	+INVENTORY.UNDROPPABLE
+	Inventory.MaxAmount 6143856 //ilog2(5000)*100
+	States
+	{
+		Spawn:
+			TNT1 A 0
+			Stop
+		Pickup:
+			TNT1 A 0
+			Stop
+		Use:
+			TNT1 A 0
+			Stop
+	}
+}
+
+Actor LevelItem : CustomInventory
+{
+	+INVENTORY.UNDROPPABLE
+	Inventory.MaxAmount 5000
+	States
+	{
+		Spawn:
+			TNT1 A 0
+			Stop
+		Pickup:
+			TNT1 A 0
+			Stop
+		Use:
+			TNT1 A 0
+			Stop
+	}
+}
+
+Actor BossArmorCount : Inventory
+{
+	+INVENTORY.UNDROPPABLE
+	Inventory.MaxAmount 2147483646
+}

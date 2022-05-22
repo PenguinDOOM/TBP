@@ -1,0 +1,338 @@
+/*
+------------------------------------------------------------------------------
+
+    The Bloody Project for Nexus
+    Copyright (C) 2022  Penguin
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2.1 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301
+    USA
+------------------------------------------------------------------------------
+*/
+
+//developing 2022/05/20~
+
+#library "TBP"
+#include "zcommon.h"
+#include "bcsutils.bcs"
+
+using BCSUtils; 
+
+#define ENABLEDEBUG
+
+#define GAMEEVENT_ACTOR_ARMORDAMAGED 12 //Because what I'm using is undefined
+#define MAXDMGTYPES 133 //133 types?
+
+str stack_dmg_type[MAXDMGTYPES];
+fixed stack_dmg_resis[MAXDMGTYPES];
+
+void TBP_Notification (str strings1, fixed holdTime, fixed x, fixed y, int cw, int ch) //original 800*600
+{
+	int Width = GetCVar("vid_defwidth");
+	int Height = GetCVar("vid_defheight");
+	
+	if(cw > 0 && ch > 0)
+	{
+		Width = cw;
+		Height = ch;
+	}
+	
+	SetHudSize(Width, Height, False);
+	
+	fixed FixedWidth = (fixed)Width * x;
+	fixed FixedHeight = (fixed)Height * y;
+	
+	SetFont("BIGFONT");
+	Hudmessage(s:strings1;HUDMSG_PLAIN, 2, CR_Red, FixedWidth, FixedHeight, holdTime, 1.0);
+}
+
+void TBP_HealthHUD (fixed holdTime, fixed x, fixed y, int cw, int ch, int CHealth, int SHealth, int CArmor, int SArmor) //original 800*600
+{
+	int Width = GetCVar("vid_defwidth");
+	int Height = GetCVar("vid_defheight");
+	
+	if(cw > 0 && ch > 0)
+	{
+		Width = cw;
+		Height = ch;
+	}
+	
+	SetHudSize(1024, 768, False);
+	
+	fixed FixedWidth = (fixed)Width * x;
+	fixed FixedHeight = (fixed)Height * y;
+	
+	SetFont("BIGFONT");
+	HudmessageBold(s:"Health ", d:CHealth, s:" / ", d:SHealth, s:"    Armor ", d:CArmor, s:" / ", d:SArmor; HUDMSG_PLAIN | HUDMSG_NOTWITHFULLMAP | HUDMSG_NOTWITHOVERLAYMAP, 3000, CR_Red, x, y, holdTime, 1.0);//FixedWidth, FixedHeight, holdTime, 1);
+}
+
+/*Script "Initialization_variable" OPEN //If the variable is not initialized, it becomes a meaningless string.
+{
+	for(int i = 0; i < lengthof(stack_dmg_type); i++)
+		stack_dmg_type[i] = "";
+}*/
+
+Script "TBP_Health_DMG" (int type, int dmg_amount, int dmg_type) EVENT
+{
+	if(type == GAMEEVENT_ACTOR_DAMAGED)
+	{
+		if(CheckFlag(0, "ISMONSTER"))
+		{
+			//PrintBold(s:"Health Damage: ", d:dmg_amount);
+			if(CheckActorClass(ActivatorTID(), "BreakTerminator")) //adaptation
+			{
+				//dmg_amount *= 2;
+				str str_dmg_type = (str)dmg_type;
+				fixed fixed_dmg_amount = (fixed)dmg_amount;
+				for(int i = 0; i < lengthof(stack_dmg_type); i++)
+				{
+					PrintBold(s:stack_dmg_type[i]);
+					if(str_dmg_type == stack_dmg_type[i])
+					{
+						stack_dmg_type[i] = str_dmg_type;
+						str temp1 = StrLeft(str((str)stack_dmg_resis[i]), 3);
+						if(temp1 == "0.2")
+								PrintBold(s:stack_dmg_type[i], s:" damage resistance is now 90%.\nUse other weapons or do justice damage to disable them.");
+						if(temp1 != "0.1")
+						{
+							stack_dmg_resis[i] -= 0.1;
+						}
+						stack_dmg_resis[i] = clamp(stack_dmg_resis[i], 0.1, 1.0);
+						fixed_dmg_amount *= stack_dmg_resis[i];
+						PrintBold(f:fixed_dmg_amount);
+						dmg_amount = itrunc(fixed_dmg_amount);
+						PrintBold(d:dmg_amount);
+						if(dmg_amount)
+							SetResultValue(dmg_amount);
+						else
+							SetResultValue(1); //Guaranteed minimum 1 damage.
+						terminate;
+					}
+					else if(str_dmg_type != stack_dmg_type[i] && !stack_dmg_type[i])
+					{
+						stack_dmg_resis[i] = 1.0;
+						stack_dmg_type[i] = str_dmg_type;
+						stack_dmg_resis[i] -= 0.1;
+						fixed_dmg_amount *= stack_dmg_resis[i];
+						dmg_amount = itrunc(fixed_dmg_amount);
+						if(dmg_amount)
+							SetResultValue(dmg_amount);
+						else
+							SetResultValue(1); //Guaranteed minimum 1 damage.
+						terminate;
+					}
+				}
+				//It's usually not possible to come here.
+				str assertmessage = StrParam(s:"\nDetected an unexpected amount of damage type\nPlease tell the developer Penguin.\nDamage type : ", s:str_dmg_type);
+				assert(0, assertmessage);
+			}
+			if(CheckActorClass(ActivatorTID(), "BloodySpiderMind") && CheckInventory("BasicArmor") > 0)
+			{
+				//PrintBold(s:"Health Damage: ", d:dmg_amount);
+				//PrintBold(s:"Total Damage: ", d:dmg_amount / 25 * 100);
+				SetResultValue(0);
+			}
+		}
+	}
+}
+
+Script "TBP_Armor_DMG" (int type, int dmg_amount, int dmg_type) EVENT //It nullifies the remaining damage when the armor is broken
+{
+	if(type == GAMEEVENT_ACTOR_ARMORDAMAGED)
+	{
+		if(CheckFlag(0, "ISMONSTER"))
+		{
+			//PrintBold(s:"Armor Damage: ", d:dmg_amount);
+			//PrintBold(s:"Armor: ", d:CheckInventory("BasicArmor"));
+			if(CheckActorClass(ActivatorTID(), "BloodySpiderMind") && CheckInventory("BasicArmor") > 0)
+			{
+				fixed fixed_dmg_amount = (fixed)dmg_amount;
+				fixed_dmg_amount *= 0.70;
+				dmg_amount = itrunc(fixed_dmg_amount);
+				SetActorProperty(ActivatorTID(), APROP_Health, GetActorProperty(ActivatorTID(), APROP_Health) + dmg_amount);
+				SetResultValue(dmg_amount);
+				/*if(CheckInventory("BasicArmor") <= dmg_amount)
+				{
+					SetResultValue(CheckInventory("BasicArmor"));
+				}*/
+			}
+		}
+	}
+}
+
+Script "TBP_BossHUD" (int TID)
+{
+	SetActivator(0, AAPTR_NULL);
+	int CHealth, SHealth, CArmor, SArmor;
+#ifdef ENABLEDEBUG
+	Log(s:"Start Script: TBP_BossHUD");
+	SHealth = GetActorProperty(TID, APROP_SpawnHealth);
+	SArmor = GetActorProperty(TID, APROP_SpawnHealth);
+	do
+	{
+		CHealth = GetActorProperty(TID, APROP_Health);
+		CArmor = CheckActorInventory(TID, "BasicArmor");
+		
+		TBP_HealthHUD(1.0 / 35.0 + 1.0, 512.0, 100.0, 0, 0, CHealth, SHealth, CArmor, SArmor);
+		//HudMessageBold(s:"Health ", d:CHealth, s:" / ", d:SHealth, s:"    Armor ", d:CArmor, s:" / ", d:SArmor; HUDMSG_NOTWITHFULLMAP | HUDMSG_NOTWITHOVERLAYMAP, 3000, CR_RED, 512.0, 100.0, 1.0 / 35.0 + 1.0);
+		
+		Delay(1);
+	} while(CHealth > 0);
+	Delay(35*5);
+	HudmessageBold(s:""; 3000, 0, 0, 0.0, 0.0, 1.0 / 35.0 + 1.0, 0.0);
+	Log(s:"End Script: TBP_BossHUD");
+#endif
+
+	SHealth = GetActorProperty(TID, APROP_SpawnHealth);
+	SArmor = GetActorProperty(TID, APROP_SpawnHealth);
+	do
+	{
+		CHealth = GetActorProperty(TID, APROP_Health);
+		CArmor = CheckActorInventory(TID, "BasicArmor");
+		
+		TBP_HealthHUD(1.0 / 35.0 + 1.0, 512.0, 100.0, 0, 0, CHealth, SHealth, CArmor, SArmor);
+		//HudMessageBold(s:"Health ", d:CHealth, s:" / ", d:SHealth, s:"    Armor ", d:CArmor, s:" / ", d:SArmor; HUDMSG_NOTWITHFULLMAP | HUDMSG_NOTWITHOVERLAYMAP, 3000, CR_RED, 512.0, 100.0, 1.0 / 35.0 + 1.0);
+		
+		Delay(1);
+	} while(CHealth > 0);
+	Delay(35*5);
+	HudmessageBold(s:""; 3000, 0, 0, 0.0, 0.0, 1.0 / 35.0 + 1.0, 0.0);
+}
+
+Script "TBP_VSBloodySpiderMind"
+{
+	int CHealth, SHealth, CArmor, Time, TID;
+#ifdef ENABLEDEBUG
+	Log(s:"Start Script: TBP_VSBloodySpiderMind");
+	/*for(let int i = 0; i < 32768; i++) {
+		Sector_SetFade(i, 70, 0, 0);
+	}*/
+	Thing_ChangeTID(0, UniqueTID()); 
+	TID = ActivatorTID();
+	Log(s:"BloodySpiderMind TID: ", d:TID);
+	ACS_NamedExecuteAlways("TBP_BossHUD", 0, TID, 0, 0);
+	do
+	{
+		SHealth = GetActorProperty(TID, APROP_Health);
+		CHealth = GetActorProperty(TID, APROP_Health);
+		Time = 0;
+		if(CHealth > 0)
+		{
+			SetActorState(TID, "GenerateArmor", True);
+			while(CHealth > 1)
+			{
+				CHealth = GetActorProperty(TID, APROP_Health);
+				if(CHealth > 100)
+				{
+					SetActorProperty(TID, APROP_Health, CHealth - 100);
+					GiveActorInventory(TID, "BloodyArmorPoint", 100);
+				}
+				else if(CHealth > 10)
+				{
+					SetActorProperty(TID, APROP_Health, CHealth - 10);
+					GiveActorInventory(TID, "BloodyArmorPoint", 10);
+				}
+				else if(CHealth > 1)
+				{
+					SetActorProperty(TID, APROP_Health, CHealth - 1);
+					GiveActorInventory(TID, "BloodyArmorPoint", 1);
+				}
+				else
+				{
+					break;
+				}
+				Delay(1);
+			}
+			GiveActorInventory(TID, "BloodyArmorPoint", 1);
+			SetActorState(TID, "ReadyFight", True);
+			CArmor = CheckActorInventory(TID, "BasicArmor");
+			while(CArmor > 0 && CHealth > 0)
+			{
+				CArmor = CheckActorInventory(TID, "BasicArmor");
+				Delay(1);
+			}
+				SetActorProperty(TID, APROP_Health, SHealth);
+				SetActorState(TID, "StunBreakArmor", True);
+			while(CHealth > 0 && Time < 350)
+			{	
+				Delay(1);
+				Time++;
+			}
+		}
+	} while(CHealth > 0);
+	/*for(let int i = 0; i < 32768; i++) {
+		Sector_SetFade(i, 0, 0, 0);
+	}*/
+	Log(s:"End Script: TBP_VSBloodySpiderMind");
+#endif
+
+	/*for(let int i = 0; i < 32768; i++) {
+		Sector_SetFade(i, 70, 0, 0);
+	}*/
+	Thing_ChangeTID(0, UniqueTID()); 
+	TID = ActivatorTID();
+	ACS_NamedExecuteAlways("TBP_BossHUD", 0, TID, 0, 0);
+	do
+	{
+		SHealth = GetActorProperty(TID, APROP_Health);
+		CHealth = GetActorProperty(TID, APROP_Health);
+		Time = 0;
+		if(CHealth > 0)
+		{
+			SetActorState(TID, "GenerateArmor", True);
+			while(CHealth > 1)
+			{
+				CHealth = GetActorProperty(TID, APROP_Health);
+				if(CHealth > 100)
+				{
+					SetActorProperty(TID, APROP_Health, CHealth - 100);
+					GiveActorInventory(TID, "BloodyArmorPoint", 100);
+				}
+				else if(CHealth > 10)
+				{
+					SetActorProperty(TID, APROP_Health, CHealth - 10);
+					GiveActorInventory(TID, "BloodyArmorPoint", 10);
+				}
+				else if(CHealth > 1)
+				{
+					SetActorProperty(TID, APROP_Health, CHealth - 1);
+					GiveActorInventory(TID, "BloodyArmorPoint", 1);
+				}
+				else
+				{
+					break;
+				}
+				Delay(1);
+			}
+			GiveActorInventory(TID, "BloodyArmorPoint", 1);
+			SetActorState(TID, "ReadyFight", True);
+			CArmor = CheckActorInventory(TID, "BasicArmor");
+			while(CArmor > 0 && CHealth > 0)
+			{
+				CArmor = CheckActorInventory(TID, "BasicArmor");
+				Delay(1);
+			}
+				SetActorProperty(TID, APROP_Health, SHealth);
+				SetActorState(TID, "StunBreakArmor", True);
+			while(CHealth > 0 && Time < 350)
+			{	
+				Delay(1);
+				Time++;
+			}
+		}
+	} while(CHealth > 0);
+	/*for(let int i = 0; i < 32768; i++) {
+		Sector_SetFade(i, 0, 0, 0);
+	}*/
+}

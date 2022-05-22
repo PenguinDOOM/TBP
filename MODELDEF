@@ -1,0 +1,20 @@
+Model BloodySpiderMindTracerProjectile
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer6.tga"
+   MODEL 0 "Tracer.md3"
+   Scale 5.0 5.0 2.5
+   PITCHFROMMOMENTUM
+   FrameIndex BSMT A 0 0
+}
+
+
+Model Break10kProjectile
+{ 
+   Path "Models/Tracers"
+   SKIN 0 "tracer8.tga"
+   MODEL 0 "Tracer.md3"
+   Scale 2.5 2.5 1.25
+   PITCHFROMMOMENTUM
+   FrameIndex B1KP A 0 0
+}
