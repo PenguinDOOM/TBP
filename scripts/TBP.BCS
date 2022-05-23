@@ -92,9 +92,14 @@ Script "TBP_Health_DMG" (int type, int dmg_amount, int dmg_type) EVENT
 			//PrintBold(s:"Health Damage: ", d:dmg_amount);
 			if(CheckActorClass(ActivatorTID(), "BreakTerminator")) //adaptation
 			{
-				//dmg_amount *= 2;
+				dmg_amount = clamp(dmg_amount, 0, 999999); //Limit damage to prevent negative damage.
 				str str_dmg_type = (str)dmg_type;
 				fixed fixed_dmg_amount = (fixed)dmg_amount;
+				str assertmessage;
+				
+				if(str_dmg_type == "Massacre") //Kill without calculating kill to prevent negative damage.
+					SetResultValue(1000000);
+				
 				for(int i = 0; i < lengthof(stack_dmg_type); i++)
 				{
 					PrintBold(s:stack_dmg_type[i]);
