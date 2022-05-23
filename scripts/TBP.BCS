@@ -101,7 +101,7 @@ Script "TBP_Health_DMG" (int type, int dmg_amount, int dmg_type) EVENT
 					if(str_dmg_type == stack_dmg_type[i])
 					{
 						stack_dmg_type[i] = str_dmg_type;
-						str temp1 = StrLeft(str((str)stack_dmg_resis[i]), 3);
+						str temp1 = StrLeft(stack_dmg_resis[i], 3);
 						if(temp1 == "0.2")
 								PrintBold(s:stack_dmg_type[i], s:" damage resistance is now 90%.\nUse other weapons or do justice damage to disable them.");
 						if(temp1 != "0.1")
